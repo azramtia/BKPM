@@ -1,5 +1,4 @@
 <?php
-
 return [
     'host' => 'localhost',
     'dbname' => 'si_akademik7',

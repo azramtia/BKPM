@@ -1,55 +1,28 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-session_start();
-
-require_once __DIR__ . '/../app/Controllers/AuthController.php';
+require_once __DIR__ . '/../app/Core/Model.php';
+require_once __DIR__ . '/../app/Models/MahasiswaModel.php';
 require_once __DIR__ . '/../app/Controllers/MahasiswaController.php';
 
-// Load routes
-require_once __DIR__ . '/../routes/web.php';
+$routes = require __DIR__ . '/../routes/web.php';
 
-// Ambil URL yang diminta
-$requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Tentukan lokasi folder public secara otomatis
-$basePath = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-
-// Hilangkan base path dari URL
-if ($basePath !== '' && $basePath !== '/') {
-    if (str_starts_with($requestUri, $basePath)) {
-        $requestUri = substr($requestUri, strlen($basePath));
-    }
+// Hilangkan base path jika project di subfolder (otomatis, contoh: /BKPM/si-akademik7/public)
+$base = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
+if ($base !== '' && strpos($uri, $base) === 0) {
+    $uri = substr($uri, strlen($base));
 }
+$uri = '/' . trim($uri, '/');
 
-// Pastikan format route diawali /
-$requestUri = '/' . ltrim($requestUri, '/');
+$method = $_SERVER['REQUEST_METHOD'];
 
-if ($requestUri === '//') {
-    $requestUri = '/';
-}
-
-// Routing
-if (isset($routes[$requestUri])) {
-
-    $controllerName = $routes[$requestUri][0];
-    $methodName = $routes[$requestUri][1];
-
-    $controller = new $controllerName();
-
-    if (method_exists($controller, $methodName)) {
-        $controller->$methodName();
-    } else {
-        http_response_code(404);
-        echo 'Method tidak ditemukan.';
-    }
-
+if (isset($routes[$method][$uri])) {
+    [$controllerName, $action] = $routes[$method][$uri];
+    $controllerClass = "App\\Controllers\\{$controllerName}";
+    $controller = new $controllerClass();
+    $controller->$action();
 } else {
-
     http_response_code(404);
-
-    echo '<h1>404 - Halaman Tidak Ditemukan</h1>';
-    echo '<p>Route <b>' . htmlspecialchars($requestUri) . '</b> tidak tersedia.</p>';
+    echo "404 - Halaman tidak ditemukan";
 }

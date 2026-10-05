@@ -77,7 +77,7 @@
 
         <button type="submit">Simpan Perubahan</button>
 
-        <a href="/si-akademik/public/mahasiswa">
+        <a href="/si-akademik7/public/mahasiswa">
             Batal
         </a>
 

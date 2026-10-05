@@ -33,7 +33,7 @@
                             Login
                         </h4>
 
-                        <form action="/si-akademik/public/login/process" method="POST">
+                        <form action="/si-akademik7/public/login/process" method="POST">
 
                             <div class="mb-3">
                                 <label class="form-label">

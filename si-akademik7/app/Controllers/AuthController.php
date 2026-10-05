@@ -13,7 +13,7 @@ class AuthController
 
                 $_SESSION['user'] = $username;
 
-                header('Location: /si-akademik/public/mahasiswa');
+                header('Location: /si-akademik7/public/mahasiswa');
                 exit;
 
             } else {
@@ -41,7 +41,7 @@ class AuthController
     {
         session_destroy();
 
-        header('Location: /si-akademik/public/login');
+        header('Location: /si-akademik7/public/login');
         exit;
     }
 }

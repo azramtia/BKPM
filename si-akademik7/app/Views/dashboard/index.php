@@ -90,7 +90,7 @@
                         </p>
 
                         <a
-                            href="/si-akademik/public/dosen"
+                            href="/si-akademik7/public/dosen"
                             class="btn btn-primary">
                             Data Dosen
                         </a>

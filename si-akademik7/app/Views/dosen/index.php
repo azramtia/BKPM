@@ -28,7 +28,7 @@
                     </h2>
 
                     <a
-                        href="/si-akademik/public/dosen/create"
+                        href="/si-akademik7/public/dosen/create"
                         class="btn btn-primary">
                         + Tambah Dosen
                     </a>
@@ -77,13 +77,13 @@
                                     <td>
 
                                         <a
-                                            href="/si-akademik/public/dosen/edit?id=<?= $item['id'] ?>"
+                                            href="/si-akademik7/public/dosen/edit?id=<?= $item['id'] ?>"
                                             class="btn btn-sm btn-warning">
                                             Edit
                                         </a>
 
                                         <a
-                                            href="/si-akademik/public/dosen/delete?id=<?= $item['id'] ?>"
+                                            href="/si-akademik7/public/dosen/delete?id=<?= $item['id'] ?>"
                                             class="btn btn-sm btn-danger"
                                             onclick="return confirm('Hapus data ini?')">
                                             Hapus
@@ -105,7 +105,7 @@
 
 
                 <a
-                    href="/si-akademik/public/dashboard"
+                    href="/si-akademik7/public/dashboard"        
                     class="btn btn-secondary">
                     Kembali ke Dashboard
                 </a>

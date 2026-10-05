@@ -1,11 +1,14 @@
 <?php
 
-$routes = [
+return [
     'GET' => [
-        '/' => ['HomeController', 'index'],
-        '/mahasiswa' => ['MahasiswaController', 'index'],
-        '/mahasiswa/create' => ['MahasiswaController', 'create'],
+        '/'                 => 'HomeController@index',
+        '/login'            => 'AuthController@loginForm',
+        '/logout'           => 'AuthController@logout',
+        '/mahasiswa'        => 'MahasiswaController@index',
+        '/mahasiswa/create' => 'MahasiswaController@create',
+    ],
+    'POST' => [
+        '/login'            => 'AuthController@login',
     ],
 ];
-
-return $routes;

@@ -7,7 +7,7 @@
 
     <h1>Edit Mahasiswa</h1>
 
-    <form method="POST" action="/si-akademik10/public/mahasiswa/update">
+    <form method="POST" action="<?= BASE_URL ?>/mahasiswa/update">
 
         <input type="hidden"
                name="id"
@@ -57,17 +57,17 @@
         <select name="status" required>
 
             <option value="Aktif"
-                <?= $mahasiswa['status'] === 'Aktif' ? 'selected' : '' ?>>
+                <?= strcasecmp($mahasiswa['status'], 'Aktif') === 0 ? 'selected' : '' ?>>
                 Aktif
             </option>
 
             <option value="Lulus"
-                <?= $mahasiswa['status'] === 'Lulus' ? 'selected' : '' ?>>
+                <?= strcasecmp($mahasiswa['status'], 'Lulus') === 0 ? 'selected' : '' ?>>
                 Lulus
             </option>
 
             <option value="Cuti"
-                <?= $mahasiswa['status'] === 'Cuti' ? 'selected' : '' ?>>
+                <?= strcasecmp($mahasiswa['status'], 'Cuti') === 0 ? 'selected' : '' ?>>
                 Cuti
             </option>
 
@@ -77,7 +77,7 @@
 
         <button type="submit">Simpan Perubahan</button>
 
-        <a href="/si-akademik10/public/mahasiswa">
+        <a href="<?= BASE_URL ?>/mahasiswa">
             Batal
         </a>
 

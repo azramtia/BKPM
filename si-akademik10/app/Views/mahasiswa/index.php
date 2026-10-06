@@ -8,7 +8,7 @@
     <h1>Data Mahasiswa</h1>
 
     <p>
-        <a href="/si-akademik10/public/mahasiswa/create">
+        <a href="<?= BASE_URL ?>/mahasiswa/create">
             + Tambah Mahasiswa
         </a>
     </p>
@@ -38,12 +38,12 @@
                 <td><?= htmlspecialchars($mhs['status']) ?></td>
 
                 <td>
-                    <a href="/si-akademik10/public/mahasiswa/edit?id=<?= $mhs['id'] ?>">
+                    <a href="<?= BASE_URL ?>/mahasiswa/edit?id=<?= $mhs['id'] ?>">
                         Edit
                     </a>
 
                     <form method="POST"
-                          action="/si-akademik10/public/mahasiswa/delete"
+                          action="<?= BASE_URL ?>/mahasiswa/delete"
                           style="display:inline;">
 
                         <input type="hidden"

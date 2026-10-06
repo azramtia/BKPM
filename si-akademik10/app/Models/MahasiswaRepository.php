@@ -1,16 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../Core/Database.php';
+require_once __DIR__ . '/Model.php';
 require_once __DIR__ . '/Mahasiswa.php';
 
-class MahasiswaRepository
+class MahasiswaRepository extends Model
 {
-    private $db;
-
-    public function __construct(Database $database)
-    {
-        $this->db = $database->getConnection();
-    }
 
     public function all()
     {
@@ -42,6 +36,19 @@ class MahasiswaRepository
         $stmt->execute([
             ':id' => $id
         ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function findDetail($id)
+    {
+        $sql = "SELECT m.nim, m.nama, p.nama AS prodi
+                FROM mahasiswa m
+                JOIN prodi p ON m.prodi_id = p.id
+                WHERE m.id = :id";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':id' => $id]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

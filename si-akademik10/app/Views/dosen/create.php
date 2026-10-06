@@ -28,8 +28,8 @@
 
                 <form
                     action="<?= isset($dosen)
-                        ? '/si-akademik10/public/dosen/update'
-                        : '/si-akademik10/public/dosen/store' ?>"
+                        ? BASE_URL . '/dosen/update'
+                        : BASE_URL . '/dosen/store' ?>"
                     method="POST">
 
                     <?php if (isset($dosen)): ?>
@@ -103,7 +103,7 @@
                     </button>
 
                     <a
-                        href="/si-akademik10/public/dosen"
+                        href="<?= BASE_URL ?>/dosen"
                         class="btn btn-secondary">
                         Batal
                     </a>

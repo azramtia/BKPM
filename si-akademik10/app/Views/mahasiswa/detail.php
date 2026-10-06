@@ -51,7 +51,7 @@
                 </table>
 
                 <a
-                    href="/si-akademik10/public/mahasiswa"
+                    href="<?= BASE_URL ?>/mahasiswa"
                     class="btn btn-secondary">
                     Kembali
                 </a>

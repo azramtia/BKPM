@@ -1,12 +1,13 @@
 <?php
 
+require_once __DIR__ . '/../Core/Database.php';
 require_once __DIR__ . '/../Models/Dosen.php';
 
 class DosenController
 {
     public function index()
     {
-        global $pdo;
+        $pdo = (new Database())->getConnection();
 
         $model = new Dosen($pdo);
         $dosen = $model->getAll();
@@ -21,7 +22,7 @@ class DosenController
 
     public function store()
     {
-        global $pdo;
+        $pdo = (new Database())->getConnection();
 
         $model = new Dosen($pdo);
 
@@ -31,13 +32,13 @@ class DosenController
             'bidang_keahlian' => $_POST['bidang_keahlian']
         ]);
 
-        header('Location: /si-akademik10/public/dosen');
+        header('Location: ' . BASE_URL . '/dosen');
         exit;
     }
 
     public function edit($id)
     {
-        global $pdo;
+        $pdo = (new Database())->getConnection();
 
         $model = new Dosen($pdo);
 
@@ -48,7 +49,7 @@ class DosenController
 
     public function update($id)
     {
-        global $pdo;
+        $pdo = (new Database())->getConnection();
 
         $model = new Dosen($pdo);
 
@@ -58,19 +59,19 @@ class DosenController
             'bidang_keahlian' => $_POST['bidang_keahlian']
         ]);
 
-        header('Location: /si-akademik10/public/dosen');
+        header('Location: ' . BASE_URL . '/dosen');
         exit;
     }
 
     public function delete($id)
     {
-        global $pdo;
+        $pdo = (new Database())->getConnection();
 
         $model = new Dosen($pdo);
 
         $model->delete($id);
 
-        header('Location: /si-akademik10/public/dosen');
+        header('Location: ' . BASE_URL . '/dosen');
         exit;
     }
 }

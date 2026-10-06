@@ -1,22 +1,20 @@
 <?php
 
+require_once __DIR__ . '/../Core/Database.php';
+
+/**
+ * Model (Base Model)
+ * Parent class untuk Model/Repository. Koneksi database cukup
+ * ditulis sekali di sini, class turunan tinggal memakai $this->db.
+ */
 class Model
 {
     protected $db;
 
-    public function __construct()
+    public function __construct(?Database $database = null)
     {
-        $config = require __DIR__ . '/../../config/database.php';
+        $database = $database ?? new Database();
 
-        $this->db = new PDO(
-            "mysql:host={$config['host']};dbname={$config['dbname']};charset={$config['charset']}",
-            $config['username'],
-            $config['password']
-        );
-
-        $this->db->setAttribute(
-            PDO::ATTR_ERRMODE,
-            PDO::ERRMODE_EXCEPTION
-        );
+        $this->db = $database->getConnection();
     }
 }

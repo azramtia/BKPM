@@ -5,6 +5,9 @@ ini_set('display_errors', 1);
 
 session_start();
 
+// Base URL otomatis, mengikuti lokasi folder public di server
+define('BASE_URL', rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/'));
+
 
 require_once __DIR__ . '/../app/Controllers/BaseController.php';
 require_once __DIR__ . '/../app/Controllers/AuthController.php';
@@ -18,7 +21,7 @@ require_once __DIR__ . '/../routes/web.php';
 // Ambil URL
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Hilangkan /si-akademik10/public
+// Hilangkan base path (folder public)
 $basePath = dirname($_SERVER['SCRIPT_NAME']);
 
 if ($basePath !== '/') {

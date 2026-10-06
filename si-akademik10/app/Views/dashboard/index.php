@@ -20,13 +20,13 @@
         <div class="container">
 
             <a
-                href="/si-akademik10/public/dashboard"
+                href="<?= BASE_URL ?>/dashboard"
                 class="navbar-brand">
                 Sistem Informasi Akademik
             </a>
 
             <a
-                href="/si-akademik10/public/logout"
+                href="<?= BASE_URL ?>/logout"
                 class="btn btn-light btn-sm">
                 Logout
             </a>
@@ -63,7 +63,7 @@
                         </p>
 
                         <a
-                            href="/si-akademik10/public/mahasiswa"
+                            href="<?= BASE_URL ?>/mahasiswa"
                             class="btn btn-primary">
                             Data Mahasiswa
                         </a>
@@ -90,7 +90,7 @@
                         </p>
 
                         <a
-                            href="/si-akademik10/public/dosen"
+                            href="<?= BASE_URL ?>/dosen"
                             class="btn btn-primary">
                             Data Dosen
                         </a>

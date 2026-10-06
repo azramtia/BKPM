@@ -7,7 +7,7 @@
 
     <h1>Tambah Mahasiswa</h1>
 
-    <form method="POST" action="/si-akademik10/public/mahasiswa/store">
+    <form method="POST" action="<?= BASE_URL ?>/mahasiswa/store">
 
         <label>NIM</label><br>
         <input type="text" name="nim" required>
@@ -46,7 +46,7 @@
 
         <button type="submit">Simpan</button>
 
-        <a href="/si-akademik10/public/mahasiswa">
+        <a href="<?= BASE_URL ?>/mahasiswa">
             Batal
         </a>
 

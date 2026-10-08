@@ -47,9 +47,10 @@ $uri = rtrim($uri, '/');
 // TENTUKAN URI ROUTE (buang base path)
 // =====================================================
 
-$basePath = '/bkpm/si-akademik7/public';
+// Base path dihitung otomatis, jadi /BKPM dan /bkpm sama-sama bisa.
+$basePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
 
-if (strpos($uri, $basePath) === 0) {
+if ($basePath !== '' && stripos($uri, $basePath) === 0) {
     $routeUri = substr($uri, strlen($basePath));
 } else {
     $routeUri = $uri;

@@ -1,28 +1,97 @@
 <?php
 
-require_once __DIR__ . '/../app/Core/Model.php';
-require_once __DIR__ . '/../app/Models/MahasiswaModel.php';
-require_once __DIR__ . '/../app/Controllers/MahasiswaController.php';
+session_start();
+
+
+// =====================================================
+// AUTOLOAD (namespace App\ => folder app/)
+// =====================================================
+
+spl_autoload_register(function (string $class): void {
+
+    $prefix = 'App\\';
+
+    if (strncmp($class, $prefix, strlen($prefix)) !== 0) {
+        return;
+    }
+
+    $relative = substr($class, strlen($prefix));
+
+    $file = __DIR__ . '/../app/' . str_replace('\\', '/', $relative) . '.php';
+
+    if (is_file($file)) {
+        require $file;
+    }
+});
+
+
+// =====================================================
+// LOAD ROUTES
+// =====================================================
 
 $routes = require __DIR__ . '/../routes/web.php';
 
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Hilangkan base path jika project di subfolder (otomatis, contoh: /BKPM/si-akademik7/public)
-$base = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
-if ($base !== '' && strpos($uri, $base) === 0) {
-    $uri = substr($uri, strlen($base));
-}
-$uri = '/' . trim($uri, '/');
+// =====================================================
+// AMBIL & BERSIHKAN URI
+// =====================================================
 
-$method = $_SERVER['REQUEST_METHOD'];
+$requestUri = $_SERVER['REQUEST_URI'] ?? '/';
 
-if (isset($routes[$method][$uri])) {
-    [$controllerName, $action] = $routes[$method][$uri];
-    $controllerClass = "App\\Controllers\\{$controllerName}";
-    $controller = new $controllerClass();
-    $controller->$action();
+$uri = parse_url($requestUri, PHP_URL_PATH);
+
+$uri = rtrim($uri, '/');
+
+
+// =====================================================
+// TENTUKAN URI ROUTE (buang base path)
+// =====================================================
+
+$basePath = '/bkpm/si-akademik7/public';
+
+if (strpos($uri, $basePath) === 0) {
+    $routeUri = substr($uri, strlen($basePath));
 } else {
-    http_response_code(404);
-    echo "404 - Halaman tidak ditemukan";
+    $routeUri = $uri;
 }
+
+if ($routeUri === '') {
+    $routeUri = '/';
+}
+
+
+// =====================================================
+// JALANKAN ROUTE
+// =====================================================
+
+$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+
+if (isset($routes[$method][$routeUri])) {
+
+    [$controllerClass, $action] = $routes[$method][$routeUri];
+
+    $controller = new $controllerClass();
+
+    $controller->$action();
+
+    exit;
+}
+
+
+// =====================================================
+// 404
+// =====================================================
+
+http_response_code(404);
+
+echo '<!DOCTYPE html>';
+echo '<html lang="id">';
+echo '<head>';
+echo '<meta charset="UTF-8">';
+echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
+echo '<title>404 - Halaman Tidak Ditemukan</title>';
+echo '</head>';
+echo '<body>';
+echo '<h1>404 - Halaman Tidak Ditemukan</h1>';
+echo '</body>';
+echo '</html>';

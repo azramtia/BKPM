@@ -1,8 +1,9 @@
 <?php
+
 return [
-    'host' => 'localhost',
-    'dbname' => 'si_akademik7',
+    'host'     => 'localhost',
+    'dbname'   => 'si_akademik7',
     'username' => 'root',
     'password' => '',
-    'charset' => 'utf8mb4',
+    'charset'  => 'utf8mb4',
 ];

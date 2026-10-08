@@ -10,9 +10,7 @@ class Mahasiswa
     private $id;
     private $nim;
     private $nama;
-    private $email;
-    private $prodiId;
-    private $angkatan;
+    private $prodi;
     private $status;
 
     public function getId() { return $this->id; }
@@ -24,14 +22,8 @@ class Mahasiswa
     public function getNama() { return $this->nama; }
     public function setNama($nama) { $this->nama = trim($nama); }
 
-    public function getEmail() { return $this->email; }
-    public function setEmail($email) { $this->email = trim($email); }
-
-    public function getProdiId() { return $this->prodiId; }
-    public function setProdiId($prodiId) { $this->prodiId = (int) $prodiId; }
-
-    public function getAngkatan() { return $this->angkatan; }
-    public function setAngkatan($angkatan) { $this->angkatan = (int) $angkatan; }
+    public function getProdi() { return $this->prodi; }
+    public function setProdi($prodi) { $this->prodi = trim($prodi); }
 
     public function getStatus() { return $this->status; }
     public function setStatus($status) { $this->status = strtolower(trim($status)); }

@@ -36,9 +36,7 @@ class MahasiswaController
         $data = [
             'nim' => '',
             'nama' => '',
-            'email' => '',
-            'prodi_id' => '',
-            'angkatan' => '',
+            'prodi' => '',
             'status' => 'aktif'
         ];
 
@@ -55,9 +53,7 @@ class MahasiswaController
         $data = [
             'nim' => trim($_POST['nim'] ?? ''),
             'nama' => trim($_POST['nama'] ?? ''),
-            'email' => trim($_POST['email'] ?? ''),
-            'prodi_id' => (int) ($_POST['prodi_id'] ?? 0),
-            'angkatan' => (int) ($_POST['angkatan'] ?? 0),
+            'prodi' => trim($_POST['prodi'] ?? ''),
             'status' => $_POST['status'] ?? 'aktif',
         ];
 
@@ -98,9 +94,7 @@ class MahasiswaController
         $data = [
             'nim' => trim($_POST['nim'] ?? ''),
             'nama' => trim($_POST['nama'] ?? ''),
-            'email' => trim($_POST['email'] ?? ''),
-            'prodi_id' => (int) ($_POST['prodi_id'] ?? 0),
-            'angkatan' => (int) ($_POST['angkatan'] ?? 0),
+            'prodi' => trim($_POST['prodi'] ?? ''),
             'status' => $_POST['status'] ?? 'aktif',
         ];
 

@@ -19,9 +19,7 @@
             <th>ID</th>
             <th>NIM</th>
             <th>Nama</th>
-            <th>Email</th>
             <th>Prodi</th>
-            <th>Angkatan</th>
             <th>Status</th>
             <th>Aksi</th>
         </tr>
@@ -32,9 +30,7 @@
                 <td><?= htmlspecialchars($mhs['id']) ?></td>
                 <td><?= htmlspecialchars($mhs['nim']) ?></td>
                 <td><?= htmlspecialchars($mhs['nama']) ?></td>
-                <td><?= htmlspecialchars($mhs['email']) ?></td>
-                <td><?= htmlspecialchars($mhs['prodi_nama']) ?></td>
-                <td><?= htmlspecialchars($mhs['angkatan']) ?></td>
+                <td><?= htmlspecialchars($mhs['prodi']) ?></td>
                 <td><?= htmlspecialchars($mhs['status']) ?></td>
 
                 <td>

@@ -8,23 +8,22 @@ class MahasiswaRepository extends Model
 
     public function all()
     {
-        $sql = "SELECT
-                    m.id,
-                    m.nim,
-                    m.nama,
-                    m.email,
-                    m.prodi_id,
-                    p.nama AS prodi_nama,
-                    m.angkatan,
-                    m.status
-                FROM mahasiswa m
-                JOIN prodi p ON m.prodi_id = p.id
-                ORDER BY m.nim";
+        $sql = "SELECT id, nim, nama, prodi, status
+                FROM mahasiswa
+                ORDER BY nim";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Daftar nama prodi untuk dropdown form
+    public function prodiList()
+    {
+        $stmt = $this->db->query("SELECT nama FROM prodi ORDER BY nama");
+
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
     public function find($id)
@@ -42,10 +41,9 @@ class MahasiswaRepository extends Model
 
     public function findDetail($id)
     {
-        $sql = "SELECT m.nim, m.nama, p.nama AS prodi
-                FROM mahasiswa m
-                JOIN prodi p ON m.prodi_id = p.id
-                WHERE m.id = :id";
+        $sql = "SELECT nim, nama, prodi
+                FROM mahasiswa
+                WHERE id = :id";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':id' => $id]);
@@ -59,24 +57,20 @@ class MahasiswaRepository extends Model
 
         $mahasiswa->setNim($data['nim']);
         $mahasiswa->setNama($data['nama']);
-        $mahasiswa->setEmail($data['email']);
-        $mahasiswa->setProdiId($data['prodi_id']);
-        $mahasiswa->setAngkatan($data['angkatan']);
+        $mahasiswa->setProdi($data['prodi']);
         $mahasiswa->setStatus($data['status']);
 
         $sql = "INSERT INTO mahasiswa
-                (nim, nama, email, prodi_id, angkatan, status)
+                (nim, nama, prodi, status)
                 VALUES
-                (:nim, :nama, :email, :prodi_id, :angkatan, :status)";
+                (:nim, :nama, :prodi, :status)";
 
         $stmt = $this->db->prepare($sql);
 
         return $stmt->execute([
             ':nim' => $mahasiswa->getNim(),
             ':nama' => $mahasiswa->getNama(),
-            ':email' => $mahasiswa->getEmail(),
-            ':prodi_id' => $mahasiswa->getProdiId(),
-            ':angkatan' => $mahasiswa->getAngkatan(),
+            ':prodi' => $mahasiswa->getProdi(),
             ':status' => $mahasiswa->getStatus()
         ]);
     }
@@ -88,17 +82,13 @@ class MahasiswaRepository extends Model
         $mahasiswa->setId($id);
         $mahasiswa->setNim($data['nim']);
         $mahasiswa->setNama($data['nama']);
-        $mahasiswa->setEmail($data['email']);
-        $mahasiswa->setProdiId($data['prodi_id']);
-        $mahasiswa->setAngkatan($data['angkatan']);
+        $mahasiswa->setProdi($data['prodi']);
         $mahasiswa->setStatus($data['status']);
 
         $sql = "UPDATE mahasiswa SET
                     nim = :nim,
                     nama = :nama,
-                    email = :email,
-                    prodi_id = :prodi_id,
-                    angkatan = :angkatan,
+                    prodi = :prodi,
                     status = :status
                 WHERE id = :id";
 
@@ -108,9 +98,7 @@ class MahasiswaRepository extends Model
             ':id' => $mahasiswa->getId(),
             ':nim' => $mahasiswa->getNim(),
             ':nama' => $mahasiswa->getNama(),
-            ':email' => $mahasiswa->getEmail(),
-            ':prodi_id' => $mahasiswa->getProdiId(),
-            ':angkatan' => $mahasiswa->getAngkatan(),
+            ':prodi' => $mahasiswa->getProdi(),
             ':status' => $mahasiswa->getStatus()
         ]);
     }

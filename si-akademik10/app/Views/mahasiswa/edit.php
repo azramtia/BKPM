@@ -29,27 +29,15 @@
 
         <br><br>
 
-        <label>Email</label><br>
-        <input type="email"
-               name="email"
-               value="<?= htmlspecialchars($mahasiswa['email']) ?>"
-               required>
-
-        <br><br>
-
-        <label>Prodi ID</label><br>
-        <input type="number"
-               name="prodi_id"
-               value="<?= htmlspecialchars($mahasiswa['prodi_id']) ?>"
-               required>
-
-        <br><br>
-
-        <label>Angkatan</label><br>
-        <input type="number"
-               name="angkatan"
-               value="<?= htmlspecialchars($mahasiswa['angkatan']) ?>"
-               required>
+        <label>Prodi</label><br>
+        <select name="prodi" required>
+            <?php foreach ($prodiList as $namaProdi): ?>
+                <option value="<?= htmlspecialchars($namaProdi) ?>"
+                    <?= $mahasiswa['prodi'] === $namaProdi ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($namaProdi) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
         <br><br>
 

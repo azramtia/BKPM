@@ -45,7 +45,9 @@ class MahasiswaController extends BaseController
     {
         AuthMiddleware::handle();
 
-        $this->view('mahasiswa/create');
+        $this->view('mahasiswa/create', [
+            'prodiList' => $this->repository->prodiList()
+        ]);
     }
 
     public function store()
@@ -68,7 +70,10 @@ class MahasiswaController extends BaseController
             $this->redirect(self::LIST_URL);
         }
 
-        $this->view('mahasiswa/edit', ['mahasiswa' => $mahasiswa]);
+        $this->view('mahasiswa/edit', [
+            'mahasiswa' => $mahasiswa,
+            'prodiList' => $this->repository->prodiList()
+        ]);
     }
 
     public function update()

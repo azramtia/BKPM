@@ -20,6 +20,7 @@ class ProdiController
     public function create(): void
     {
         $data = ['kode' => '', 'nama' => ''];
+        $errors = [];
         require __DIR__ . '/../Views/prodi/create.php';
     }
 
@@ -43,6 +44,7 @@ class ProdiController
             $this->redirect('/prodi');
         }
 
+        $errors = [];
         require __DIR__ . '/../Views/prodi/edit.php';
     }
 

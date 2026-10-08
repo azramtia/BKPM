@@ -42,26 +42,15 @@ require __DIR__ . '/../layouts/main.php';
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input
-            type="email"
-            class="form-control"
-            name="email"
-            value="<?= htmlspecialchars($data['email']) ?>"
-            required
-        >
-    </div>
-
-    <div class="mb-3">
         <label class="form-label">Prodi</label>
 
-        <select class="form-select" name="prodi_id" required>
+        <select class="form-select" name="prodi" required>
             <option value="">-- Pilih Prodi --</option>
 
             <?php foreach ($prodi as $p): ?>
                 <option
-                    value="<?= $p['id'] ?>"
-                    <?= (string) $data['prodi_id'] === (string) $p['id']
+                    value="<?= htmlspecialchars($p['nama']) ?>"
+                    <?= $data['prodi'] === $p['nama']
                         ? 'selected'
                         : '' ?>
                 >
@@ -70,18 +59,6 @@ require __DIR__ . '/../layouts/main.php';
             <?php endforeach; ?>
 
         </select>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Angkatan</label>
-
-        <input
-            type="number"
-            class="form-control"
-            name="angkatan"
-            value="<?= htmlspecialchars($data['angkatan']) ?>"
-            required
-        >
     </div>
 
     <div class="mb-3">

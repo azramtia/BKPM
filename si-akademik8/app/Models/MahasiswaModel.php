@@ -4,13 +4,19 @@ require_once __DIR__ . '/Model.php';
 
 class MahasiswaModel extends Model
 {
+    /**
+     * Daftar mahasiswa + kode prodi (JOIN ke tabel prodi)
+     * + nama dosen pembimbing (JOIN ke tabel dosen).
+     * Kolom mahasiswa.prodi berisi nama prodi (teks).
+     */
     public function all(string $search = ''): array
     {
-        $sql = "SELECT m.id, m.nim, m.nama, m.email, m.prodi_id,
-                       p.kode AS kode_prodi, p.nama AS nama_prodi,
-                       m.angkatan, m.status
+        $sql = "SELECT m.id, m.nim, m.nama, m.prodi, m.status, m.dosen_id,
+                       p.kode AS kode_prodi,
+                       d.nama AS nama_dosen
                 FROM mahasiswa m
-                LEFT JOIN prodi p ON p.id = m.prodi_id";
+                LEFT JOIN prodi p ON p.nama = m.prodi
+                LEFT JOIN dosen d ON d.id = m.dosen_id";
 
         if ($search !== '') {
             $sql .= " WHERE m.nim LIKE :nim_search OR m.nama LIKE :nama_search";
@@ -44,25 +50,24 @@ class MahasiswaModel extends Model
     public function create(array $data): bool
     {
         $stmt = $this->db->prepare(
-            "INSERT INTO mahasiswa (nim, nama, email, prodi_id, angkatan, status)
-             VALUES (:nim, :nama, :email, :prodi_id, :angkatan, :status)"
+            "INSERT INTO mahasiswa (nim, nama, prodi, status)
+             VALUES (:nim, :nama, :prodi, :status)"
         );
 
         return $stmt->execute([
             'nim' => $data['nim'],
             'nama' => $data['nama'],
-            'email' => $data['email'],
-            'prodi_id' => $data['prodi_id'],
-            'angkatan' => $data['angkatan'],
+            'prodi' => $data['prodi'],
             'status' => $data['status'],
         ]);
     }
 
     public function update(int $id, array $data): bool
     {
+        // dosen_id sengaja tidak diubah agar dosen pembimbing tetap aman
         $stmt = $this->db->prepare(
-            "UPDATE mahasiswa SET nim = :nim, nama = :nama, email = :email,
-             prodi_id = :prodi_id, angkatan = :angkatan, status = :status
+            "UPDATE mahasiswa SET nim = :nim, nama = :nama,
+             prodi = :prodi, status = :status
              WHERE id = :id"
         );
 
@@ -70,9 +75,7 @@ class MahasiswaModel extends Model
             'id' => $id,
             'nim' => $data['nim'],
             'nama' => $data['nama'],
-            'email' => $data['email'],
-            'prodi_id' => $data['prodi_id'],
-            'angkatan' => $data['angkatan'],
+            'prodi' => $data['prodi'],
             'status' => $data['status'],
         ]);
     }

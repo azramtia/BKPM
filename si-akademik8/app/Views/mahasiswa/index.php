@@ -44,9 +44,8 @@ require __DIR__ . '/../layouts/main.php';
                     <th>No</th>
                     <th>NIM</th>
                     <th>Nama</th>
-                    <th>Email</th>
                     <th>Prodi</th>
-                    <th>Angkatan</th>
+                    <th>Dosen</th>
                     <th>Status</th>
                     <th>Aksi</th>
                 </tr>
@@ -56,7 +55,7 @@ require __DIR__ . '/../layouts/main.php';
 
                 <?php if (!$mahasiswa): ?>
                     <tr>
-                        <td colspan="8" class="text-center">
+                        <td colspan="7" class="text-center">
                             Data tidak ditemukan.
                         </td>
                     </tr>
@@ -75,17 +74,15 @@ require __DIR__ . '/../layouts/main.php';
                         </td>
 
                         <td>
-                            <?= htmlspecialchars($mhs['email']) ?>
-                        </td>
-
-                        <td>
                             <?= htmlspecialchars(
-                                $mhs['kode_prodi'] . ' - ' . $mhs['nama_prodi']
+                                (($mhs['kode_prodi'] ?? '') !== ''
+                                    ? $mhs['kode_prodi'] . ' - '
+                                    : '') . $mhs['prodi']
                             ) ?>
                         </td>
 
                         <td>
-                            <?= htmlspecialchars($mhs['angkatan']) ?>
+                            <?= htmlspecialchars($mhs['nama_dosen'] ?? '-') ?>
                         </td>
 
                         <td>

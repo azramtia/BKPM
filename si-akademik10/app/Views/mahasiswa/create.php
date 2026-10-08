@@ -19,18 +19,15 @@
 
         <br><br>
 
-        <label>Email</label><br>
-        <input type="email" name="email" required>
-
-        <br><br>
-
-        <label>Prodi ID</label><br>
-        <input type="number" name="prodi_id" required>
-
-        <br><br>
-
-        <label>Angkatan</label><br>
-        <input type="number" name="angkatan" required>
+        <label>Prodi</label><br>
+        <select name="prodi" required>
+            <option value="">-- Pilih Prodi --</option>
+            <?php foreach ($prodiList as $namaProdi): ?>
+                <option value="<?= htmlspecialchars($namaProdi) ?>">
+                    <?= htmlspecialchars($namaProdi) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
         <br><br>
 

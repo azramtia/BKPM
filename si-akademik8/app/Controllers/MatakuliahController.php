@@ -24,6 +24,7 @@ class MatakuliahController
     {
         $prodi = $this->prodiModel->all();
         $data = ['kode' => '', 'nama' => '', 'sks' => '', 'prodi_id' => ''];
+        $errors = [];
         require __DIR__ . '/../Views/matakuliah/create.php';
     }
 
@@ -50,6 +51,7 @@ class MatakuliahController
         }
 
         $prodi = $this->prodiModel->all();
+        $errors = [];
         require __DIR__ . '/../Views/matakuliah/edit.php';
     }
 

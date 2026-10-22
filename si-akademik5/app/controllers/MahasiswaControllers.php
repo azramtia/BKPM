@@ -1,10 +1,11 @@
+
 <?php
 
 class MahasiswaController
 {
     public function index()
     {
-        echo "Halaman Mahasiswa";
+        echo "Halaman Data Mahasiswa";
     }
 
     public function create()
@@ -14,6 +15,6 @@ class MahasiswaController
 
     public function show($id)
     {
-        echo "Detail Mahasiswa dengan ID: " . $id;
+        echo "Detail Mahasiswa dengan ID: " . htmlspecialchars((string) $id, ENT_QUOTES, 'UTF-8');
     }
 }

@@ -6,8 +6,6 @@ class MahasiswaController extends BaseController {
         $this->model = new Mahasiswa();
     }
 
-    // GET /mahasiswa            -> semua data
-    // GET /mahasiswa?id=1       -> satu data (juga bisa /mahasiswa/1)
     public function index($id = null): void {
         if ($id !== null && $id !== '') {
             $data = $this->model->find($this->requireId($id));

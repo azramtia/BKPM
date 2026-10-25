@@ -1,22 +1,15 @@
 <?php
 
 abstract class BaseController {
-    protected function send(int $status, array $body): void {
-        http_response_code($status);
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($body, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        exit;
-    }
-
     /** Baca body JSON; kirim 400 jika kosong atau formatnya salah. */
     protected function readJson(): array {
         $raw = file_get_contents('php://input');
         if ($raw === false || trim($raw) === '') {
-            $this->send(400, ['success' => false, 'message' => 'Body request kosong, kirim data dalam format JSON']);
+            Response::json(400, false, 'Body request kosong, kirim data dalam format JSON');
         }
         $data = json_decode($raw, true);
         if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
-            $this->send(400, ['success' => false, 'message' => 'Format JSON tidak valid']);
+            Response::json(400, false, 'Format JSON tidak valid');
         }
         return $data;
     }
@@ -24,7 +17,7 @@ abstract class BaseController {
     /** Pastikan ID berupa bilangan bulat positif. */
     protected function requireId($id): int {
         if ($id === null || $id === '' || !ctype_digit((string) $id) || (int) $id < 1) {
-            $this->send(400, ['success' => false, 'message' => 'ID tidak valid atau tidak disertakan, contoh: ?id=1']);
+            Response::json(400, false, 'ID tidak valid atau tidak disertakan, contoh: ?id=1');
         }
         return (int) $id;
     }

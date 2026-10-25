@@ -15,10 +15,8 @@ class Database {
             try {
                 self::$connection = new PDO($dsn, 'root', '', $options);
             } catch (PDOException $e) {
-                http_response_code(500);
-                header('Content-Type: application/json; charset=utf-8');
-                echo json_encode(['success' => false, 'message' => 'Koneksi database gagal']);
-                exit;
+                error_log($e->getMessage());
+                Response::json(500, false, 'Koneksi database gagal');
             }
         }
         return self::$connection;

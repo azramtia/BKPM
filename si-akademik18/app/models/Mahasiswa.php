@@ -33,9 +33,14 @@ class Mahasiswa {
             throw new DomainException('NIM sudah terdaftar');
         }
         $stmt = $this->db->prepare(
-            'INSERT INTO mahasiswa (nim, nama, prodi) VALUES (:nim, :nama, :prodi)'
+            'INSERT INTO mahasiswa (nim, nama, prodi, email) VALUES (:nim, :nama, :prodi, :email)'
         );
-        $stmt->execute([':nim' => $data['nim'], ':nama' => $data['nama'], ':prodi' => $data['prodi']]);
+        $stmt->execute([
+            ':nim'   => $data['nim'],
+            ':nama'  => $data['nama'],
+            ':prodi' => $data['prodi'],
+            ':email' => $data['email'] ?? null,
+        ]);
         return $this->db->lastInsertId();
     }
 
@@ -44,9 +49,15 @@ class Mahasiswa {
             throw new DomainException('NIM sudah digunakan mahasiswa lain');
         }
         $stmt = $this->db->prepare(
-            'UPDATE mahasiswa SET nim = :nim, nama = :nama, prodi = :prodi WHERE id = :id'
+            'UPDATE mahasiswa SET nim = :nim, nama = :nama, prodi = :prodi, email = :email WHERE id = :id'
         );
-        $stmt->execute([':nim' => $data['nim'], ':nama' => $data['nama'], ':prodi' => $data['prodi'], ':id' => $id]);
+        $stmt->execute([
+            ':nim'   => $data['nim'],
+            ':nama'  => $data['nama'],
+            ':prodi' => $data['prodi'],
+            ':email' => $data['email'] ?? null,
+            ':id'    => $id,
+        ]);
     }
 
     public function delete(int $id): void {

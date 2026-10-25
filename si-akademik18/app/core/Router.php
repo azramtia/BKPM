@@ -1,6 +1,6 @@
 <?php
 class Router {
-  
+
     private array $map = [
         'mahasiswa' => 'MahasiswaController',
         'buku'      => 'BukuController',
@@ -23,7 +23,7 @@ class Router {
             }
 
             if ($resource === null) {
-                $this->json(404, ['success' => false, 'message' => 'Endpoint tidak ditemukan']);
+                Response::json(404, false, 'Endpoint tidak ditemukan');
             }
 
             $id = $pathId ?? ($_GET['id'] ?? null);
@@ -38,18 +38,11 @@ class Router {
                 case 'DELETE': $controller->destroy($id); break;
                 default:
                     header('Allow: GET, POST, PUT, PATCH, DELETE');
-                    $this->json(405, ['success' => false, 'message' => 'Method tidak diizinkan']);
+                    Response::json(405, false, 'Method tidak diizinkan');
             }
         } catch (Throwable $e) {
             error_log($e->getMessage());
-            $this->json(500, ['success' => false, 'message' => 'Terjadi kesalahan pada server']);
+            Response::json(500, false, 'Terjadi kesalahan pada server');
         }
-    }
-
-    private function json(int $status, array $body): void {
-        http_response_code($status);
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($body, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        exit;
     }
 }

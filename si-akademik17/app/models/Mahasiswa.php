@@ -16,10 +16,6 @@ class Mahasiswa {
         return $stmt->fetch();
     }
 
-    /**
-     * Validasi Tugas Mandiri 2: NIM tidak boleh duplikat.
-     * $exceptId dipakai saat update agar data itu sendiri tidak dianggap duplikat.
-     */
     public function nimExists(string $nim, ?int $exceptId = null): bool {
         $sql = 'SELECT COUNT(*) FROM mahasiswa WHERE nim = :nim';
         $params = [':nim' => $nim];

@@ -1,8 +1,5 @@
 <?php
-/**
- * Controller dasar: berisi helper untuk membaca body JSON dan mengirim response.
- * (Pada acara 18 format response akan dirapikan menjadi class Response tersendiri.)
- */
+
 abstract class BaseController {
     protected function send(int $status, array $body): void {
         http_response_code($status);

@@ -6,8 +6,6 @@ class MahasiswaController extends BaseController {
         $this->model = new Mahasiswa();
     }
 
-    // GET /mahasiswa            -> semua data
-    // GET /mahasiswa?id=1       -> satu data (juga bisa /mahasiswa/1)
     public function index($id = null): void {
         if ($id !== null && $id !== '') {
             $data = $this->model->find($this->requireId($id));
@@ -73,6 +71,7 @@ class MahasiswaController extends BaseController {
         $data = [
             'nim'   => $this->str($input, 'nim'),
             'nama'  => $this->str($input, 'nama'),
+            'email' => $this->str($input, 'email'),
             'prodi' => $this->str($input, 'prodi'),
         ];
 
@@ -81,6 +80,15 @@ class MahasiswaController extends BaseController {
         }
         if ($this->len($data['nim']) > 15 || $this->len($data['nama']) > 100 || $this->len($data['prodi']) > 50) {
             $this->send(400, ['success' => false, 'message' => 'Panjang maksimal: nim 15, nama 100, prodi 50 karakter']);
+        }
+
+    
+        if ($data['email'] !== '') {
+            if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL) || $this->len($data['email']) > 100) {
+                $this->send(400, ['success' => false, 'message' => 'Format email tidak valid']);
+            }
+        } else {
+            $data['email'] = null;
         }
 
         return $data;

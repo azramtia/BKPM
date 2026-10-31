@@ -1,0 +1,4 @@
+name: si-akademik21 local
+values:
+  - key: base_url
+    value: ''

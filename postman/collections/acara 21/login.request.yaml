@@ -1,0 +1,20 @@
+$kind: http-request
+description: |-
+  Endpoint ini digunakan untuk melakukan login pengguna ke dalam sistem dan mendapatkan token autentikasi.
+
+  Controller: AuthController::login()  
+  Method: POST  
+  Headers: Content-Type: application/json  
+  Response: Token JWT untuk autentikasi.
+url: "{{base_url}}/login"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"username\":\"Rasta\",\r
+
+    \    \"password\":\"1234\"\r
+
+    }"
+order: 960

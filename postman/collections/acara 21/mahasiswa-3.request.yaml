@@ -1,0 +1,30 @@
+$kind: http-request
+name: mahasiswa
+description: |-
+  Endpoint ini digunakan untuk menghapus data mahasiswa berdasarkan ID.
+
+  Controller: MahasiswaController::destroy()  
+  Method: DELETE  
+  Authorization: Bearer Token
+url: "{{base_url}}/mahasiswa/?id=9"
+method: DELETE
+queryParams:
+  id: "9"
+body:
+  type: json
+  content: "{\r
+
+    \    \"nim\":\"1234567888\",\r
+
+    \    \"nama\":\"Rasta Ockta Anggara\",\r
+
+    \    \"email\":\"rasta@gmail.com\",\r
+
+    \    \"prodi\":\"Manajemen Informatika\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{json_web_token_0cal}}"
+order: 4000

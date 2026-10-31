@@ -1,0 +1,14 @@
+$kind: http-request
+description: |-
+  Endpoint ini digunakan untuk menampilkan seluruh data mahasiswa dari database.
+
+  Controller: MahasiswaController::index()  
+  Method: GET  
+  Authorization: Tidak memerlukan Bearer Token (sesuaikan dengan konfigurasi aplikasi).
+url: "{{base_url}}/mahasiswa"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{json_web_token_0mo5}}"
+order: 1000

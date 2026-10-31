@@ -1,0 +1,21 @@
+$kind: http-request
+description: |-
+  Endpoint ini digunakan untuk mendaftarkan pengguna baru ke dalam sistem.
+
+  Controller: AuthController::register()  
+  Method: POST  
+  Headers: Content-Type: application/json
+url: "{{base_url}}/register"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"username\":\"Rasta\",\r
+
+    \    \"email\":\"rasta@gmail.com\",\r
+
+    \    \"password\":\"1234\"\r
+
+    }"
+order: 491

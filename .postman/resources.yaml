@@ -1,9 +1,8 @@
-# Use this workspace to collaborate
 workspace:
   id: c5fde0bd-e873-4f24-8ad7-dae53896bbc8
-
-# All resources in the `postman/` folder are automatically registered in Local View.
-# Point to additional files outside the `postman/` folder to register them individually. Example:
-#localResources:
-#  collections:
-#    - ../tests/E2E Test Collection/
+localResources:
+  specs:
+    - ../C:/laragon/www/BKPM/si-akademik22/docs/openapi.yaml
+resourceNameMappings:
+  specs:
+    - ../si-akademik22/docs/openapi.yaml: openapi.yaml

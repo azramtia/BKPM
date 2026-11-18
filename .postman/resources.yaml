@@ -1,5 +1,6 @@
 workspace:
   id: c5fde0bd-e873-4f24-8ad7-dae53896bbc8
+
 localResources:
   specs:
     - ../C:/laragon/www/BKPM/si-akademik22/docs/openapi.yaml

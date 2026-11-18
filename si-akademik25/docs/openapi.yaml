@@ -1,0 +1,330 @@
+openapi: 3.0.0
+info:
+  title: API Sistem Informasi Akademik (MVC)
+  description: >
+    REST API PHP Native (MVC) untuk pengelolaan data mahasiswa beserta
+    autentikasi pengguna. Endpoint baca bersifat publik, sedangkan
+    endpoint tulis (POST, PUT, DELETE) memerlukan token JWT.
+  version: 1.0.0
+servers:
+  - url: http://localhost/BKPM/si-akademik25/public
+    description: Server lokal (XAMPP)
+
+tags:
+  - name: Autentikasi
+    description: Pendaftaran dan login pengguna (AuthController)
+  - name: Mahasiswa
+    description: CRUD data mahasiswa (MahasiswaController)
+
+paths:
+  /register:
+    post:
+      tags: [Autentikasi]
+      summary: Pendaftaran pengguna baru (AuthController::register)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, email, password]
+              properties:
+                username: { type: string, maxLength: 50, example: andi }
+                email: { type: string, format: email, maxLength: 100, example: andi@mail.com }
+                password: { type: string, format: password, example: rahasia123 }
+      responses:
+        '201':
+          description: Registrasi berhasil
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '405': { $ref: '#/components/responses/MethodNotAllowed' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+
+  /login:
+    post:
+      tags: [Autentikasi]
+      summary: Autentikasi pengguna (AuthController::login)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username: { type: string, example: andi }
+                password: { type: string, format: password, example: rahasia123 }
+      responses:
+        '200':
+          description: Login berhasil
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401':
+          description: Kredensial tidak valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '405': { $ref: '#/components/responses/MethodNotAllowed' }
+
+  /mahasiswa:
+    get:
+      tags: [Mahasiswa]
+      summary: Mengambil data mahasiswa (MahasiswaController::index)
+      description: >
+        Tanpa parameter id mengembalikan seluruh data mahasiswa.
+        Dengan parameter id mengembalikan satu data mahasiswa.
+      parameters:
+        - name: id
+          in: query
+          required: false
+          description: ID mahasiswa (bilangan bulat positif)
+          schema: { type: integer, minimum: 1, example: 7 }
+      responses:
+        '200':
+          description: Data berhasil diambil
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/MahasiswaListResponse'
+                  - $ref: '#/components/schemas/MahasiswaDetailResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+    post:
+      tags: [Mahasiswa]
+      summary: Menambahkan data mahasiswa (MahasiswaController::store)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MahasiswaInput'
+      responses:
+        '201':
+          description: Data berhasil ditambahkan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+
+    put:
+      tags: [Mahasiswa]
+      summary: Memperbarui data mahasiswa (MahasiswaController::update)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: ID mahasiswa yang diubah
+          schema: { type: integer, minimum: 1, example: 7 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MahasiswaInput'
+      responses:
+        '200':
+          description: Data berhasil diperbarui
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+
+    delete:
+      tags: [Mahasiswa]
+      summary: Menghapus data mahasiswa (MahasiswaController::destroy)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: ID mahasiswa yang dihapus
+          schema: { type: integer, minimum: 1, example: 7 }
+      responses:
+        '200':
+          description: Data berhasil dihapus
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >
+        Token JWT dari endpoint /login (berlaku 300 detik).
+        Kirim pada header Authorization: Bearer <token>.
+        POST, PUT, dan DELETE pada /mahasiswa hanya untuk token dengan role admin.
+
+  schemas:
+    MahasiswaInput:
+      type: object
+      required: [nim, nama, prodi]
+      properties:
+        nim:
+          type: string
+          pattern: '^[0-9]{9}$'
+          description: Tepat 9 digit angka, unik
+          example: '220100123'
+        nama: { type: string, maxLength: 100, example: Andi Saputra }
+        prodi: { type: string, maxLength: 50, example: Teknik Informatika }
+        email: { type: string, format: email, maxLength: 100, example: andi@mail.com }
+
+    Mahasiswa:
+      type: object
+      properties:
+        id: { type: integer, example: 7 }
+        nim: { type: string, example: '123456789' }
+        nama: { type: string, example: Azira Mutia Gani }
+        email: { type: string, example: azira@gmail.com }
+        prodi: { type: string, example: Teknik Informatika }
+        created_at: { type: string, example: '2026-10-25 12:23:12' }
+
+    SuccessResponse:
+      type: object
+      properties:
+        success: { type: boolean, example: true }
+        message: { type: string, example: Operasi berhasil }
+        data: { type: object, nullable: true, example: null }
+        timestamp: { type: string, format: date-time }
+
+    CreatedResponse:
+      type: object
+      properties:
+        success: { type: boolean, example: true }
+        message: { type: string, example: Data berhasil ditambahkan }
+        data:
+          type: object
+          properties:
+            id: { type: integer, example: 8 }
+        timestamp: { type: string, format: date-time }
+
+    LoginResponse:
+      type: object
+      properties:
+        success: { type: boolean, example: true }
+        message: { type: string, example: Login berhasil }
+        data:
+          type: object
+          properties:
+            token: { type: string, example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.... }
+            role: { type: string, example: user }
+            expires_in: { type: integer, example: 300 }
+        timestamp: { type: string, format: date-time }
+
+    MahasiswaListResponse:
+      type: object
+      properties:
+        success: { type: boolean, example: true }
+        message: { type: string, example: Data berhasil diambil }
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mahasiswa'
+        timestamp: { type: string, format: date-time }
+
+    MahasiswaDetailResponse:
+      type: object
+      properties:
+        success: { type: boolean, example: true }
+        message: { type: string, example: Data berhasil diambil }
+        data:
+          $ref: '#/components/schemas/Mahasiswa'
+        timestamp: { type: string, format: date-time }
+
+    ErrorResponse:
+      type: object
+      properties:
+        success: { type: boolean, example: false }
+        message: { type: string, example: Terjadi kesalahan }
+        data: { type: object, nullable: true, example: null }
+        timestamp: { type: string, format: date-time }
+
+    ValidationErrorResponse:
+      type: object
+      properties:
+        success: { type: boolean, example: false }
+        message: { type: string, example: Validasi data gagal }
+        data: { type: object, nullable: true, example: null }
+        errors:
+          type: object
+          additionalProperties: { type: string }
+          example:
+            nim: NIM hanya boleh mengandung angka dan harus tepat 9 digit, tidak boleh mengandung huruf
+        timestamp: { type: string, format: date-time }
+
+  responses:
+    BadRequest:
+      description: Permintaan tidak valid (body kosong, JSON rusak, atau ID tidak valid)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Token tidak ditemukan, tidak valid, atau kedaluwarsa
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Akses ditolak, endpoint ini hanya untuk role admin
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Data tidak ditemukan
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    MethodNotAllowed:
+      description: Method HTTP tidak diizinkan untuk endpoint ini
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Conflict:
+      description: Data duplikat (NIM, username, atau email sudah terdaftar)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ValidationError:
+      description: Validasi data gagal
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationErrorResponse'

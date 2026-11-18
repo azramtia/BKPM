@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header class="bar">
+      <div>
+        <h1>Dashboard Admin</h1>
+        <p id="info-peran"></p>
+      </div>
+      <button id="btn-logout" class="sekunder" type="button">Logout</button>
+    </header>
+
+    <p class="total">Total mahasiswa: <strong id="total-mahasiswa">0</strong></p>
+    <p id="status" class="status" role="status"></p>
+
+    <section id="bagian-form" class="kartu khusus-admin">
+      <h2 id="judul-form">Tambah mahasiswa</h2>
+      <form id="form-mahasiswa">
+        <input id="id-mahasiswa" type="hidden">
+        <div class="grid">
+          <div>
+            <label for="nim">NIM</label>
+            <input id="nim" type="text" inputmode="numeric" maxlength="9" placeholder="9 digit angka" required>
+          </div>
+          <div>
+            <label for="nama">Nama</label>
+            <input id="nama" type="text" maxlength="100" required>
+          </div>
+          <div>
+            <label for="prodi">Program Studi</label>
+            <input id="prodi" type="text" maxlength="50" required>
+          </div>
+          <div>
+            <label for="email">Email (opsional)</label>
+            <input id="email" type="email" maxlength="100">
+          </div>
+        </div>
+        <div class="aksi-form">
+          <button id="btn-simpan" type="submit">Simpan</button>
+          <button id="btn-batal" class="sekunder" type="button" hidden>Batal</button>
+        </div>
+      </form>
+    </section>
+
+    <div class="kartu bungkus">
+      <table id="tabel-mahasiswa">
+        <thead>
+          <tr>
+            <th>NIM</th><th>Nama</th><th>Program Studi</th>
+            <th class="khusus-admin">Aksi</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
+  <script src="dashboard.js"></script>
+</body>
+</html>

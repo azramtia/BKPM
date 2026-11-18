@@ -4,6 +4,8 @@ workspace:
 localResources:
   specs:
     - ../C:/laragon/www/BKPM/si-akademik22/docs/openapi.yaml
+    - ../C:/laragon/www/BKPM/si-akademik24/docs/openapi.yaml
 resourceNameMappings:
   specs:
     - ../si-akademik22/docs/openapi.yaml: openapi.yaml
+    - ../si-akademik24/docs/openapi.yaml: openapi.yaml
